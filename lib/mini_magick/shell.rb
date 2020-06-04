@@ -64,7 +64,7 @@ module MiniMagick
 
     def execute_posix_spawn(command, options = {})
       require "posix-spawn"
-      child = POSIX::Spawn::Child.new(*command, input: options[:stdin].to_s, timeout: MiniMagick.timeout)
+      child = POSIX::Spawn::Child.new(*command, input: options[:stdin].to_s, timeout: MiniMagick.timeout, pgroup_kill: true)
       [child.out, child.err, child.status]
     rescue POSIX::Spawn::TimeoutExceeded
       raise Timeout::Error, "MiniMagick command timed out: #{command}"
